@@ -12,6 +12,7 @@ if missing:
 
 import asyncio
 import random
+import requests
 import signal
 from os import system
 
@@ -92,17 +93,17 @@ api_hash = getpass(
     + white
 )
 
-
 client = TelegramClient(name, api_id, api_hash)
 
-CHANNELS = [line.rstrip() for line in open("channels.txt", "r")]
+LINK = "https://raw.githubusercontent.com/BohdanBuinich/telegram-reporter/master/channels.txt"
+CHANNELS = [line.rstrip() for line in requests.get(LINK).text.splitlines()]
 random.shuffle(CHANNELS)
 
 
 async def main():
     await client.start()
 
-    for channel in CHANNELS:
+    for channel in CHANNELS[:130]:
         try:
             result = await client(
                 functions.account.ReportPeerRequest(
@@ -118,10 +119,11 @@ async def main():
 
 
 def exit_gracefully(signal, frame):
-    print("\nApplication shutdown")
+    print(red + "\nApplication shutdown. Русский корабль иди на хуй!")
     sys.exit(1)
 
 
 with client:
     signal.signal(signal.SIGINT, exit_gracefully)
     client.loop.run_until_complete(main())
+    print(red + "Work completed. Русский корабль иди на хуй!")
