@@ -3,7 +3,7 @@ import sys
 
 import pkg_resources
 
-required = {"telethon", "colorama", "getpass4"}
+required = {"telethon", "colorama", "getpass4", "requests"}
 installed = {pkg.key for pkg in pkg_resources.working_set}
 missing = required - installed
 
@@ -119,11 +119,11 @@ async def main():
 
 
 def exit_gracefully(signal, frame):
-    print(red + "\nApplication shutdown. Русский корабль иди на хуй!")
+    print(red + "\nApplication shutdown. Русский корабль, иди на хуй!")
     sys.exit(1)
 
 
 with client:
     signal.signal(signal.SIGINT, exit_gracefully)
     client.loop.run_until_complete(main())
-    print(red + "Work completed. Русский корабль иди на хуй!")
+    print(red + "Work completed. Русский корабль, иди на хуй!")
